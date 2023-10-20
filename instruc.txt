@@ -1,0 +1,13 @@
+xampp>config>service port settings>mysql>3307
+
+
+use pointofsale
+CREATE USER 'pmauser'@'%' IDENTIFIED BY 'password_here';
+GRANT ALL PRIVILEGES ON *.* TO 'pmauser'@'%' WITH GRANT OPTION;
+
+
+
+$cfg['Servers'][$i]['controluser'] = 'pmauser'; 
+$cfg['Servers'][$i]['controlpass'] = 'password_here';
+
+
