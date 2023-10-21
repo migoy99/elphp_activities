@@ -53,28 +53,12 @@
             echo "<td>" . $pos['menu_name'] . "</td>";
             echo "<td>" . $pos['menu_desc'] . "</td>";
             echo "<td>" . $pos['price'] . "</td>";
+            echo "<td><button href=" . "process-form.php?id=" . $pos['id'] . ">delete</button></td>";
+            echo "<td><button>asdasdasd</button></td>";
             echo "<tr>";
           }
         }
-
         ?>
-        <!-- <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr> -->
-        <!-- <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr> -->
       </tbody>
     </table>
   </div>

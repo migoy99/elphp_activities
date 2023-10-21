@@ -1,8 +1,8 @@
 <?php
 session_start();
 $servername = "localhost:3307";
-$username = "pma";
-$password = "pass";
+$username = "migoy";
+$password = "password_here";
 $dbname = "pointofsale";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
@@ -31,13 +31,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-// Fetch data from the database and store it in an array
 $sql = "SELECT * FROM ref_menu";
 $stmt = $conn->query($sql);
 $posData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $_SESSION['posData'] = $posData;
+
+
+if(isset($_GET['id'])) {
+    $sql = "DELETE FROM topics WHERE id = '".$_GET['id']."'";
+    if ($conn->query($sql) === TRUE) {
+        echo '<script>alert("record deleted");</script>';
+        // header("Refresh: 1; url=index.php");
+    } else {
+        echo '<script>alert("error eekkk);</script>';
+    }
+    exit();
+ }
 
 
 include('index.php');
