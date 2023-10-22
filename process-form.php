@@ -38,16 +38,16 @@ $posData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $_SESSION['posData'] = $posData;
 
 
-if(isset($_GET['id'])) {
-    $sql = "DELETE FROM topics WHERE id = '".$_GET['id']."'";
-    if ($conn->query($sql) === TRUE) {
-        echo '<script>alert("record deleted");</script>';
-        // header("Refresh: 1; url=index.php");
-    } else {
-        echo '<script>alert("error eekkk);</script>';
-    }
-    exit();
- }
+if (isset($_GET['id'])) {
+    // Sanitize the ID parameter
+    $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+    $sql = "DELETE FROM ref_menu WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+
 
 
 include('index.php');

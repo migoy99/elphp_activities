@@ -3,6 +3,44 @@
 
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <script>
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+
+    function openModal(id, name, desc, price) {
+      document.getElementById("updateId").value = id;
+      document.getElementById("updateName").value = name;
+      document.getElementById("updateDesc").value = desc;
+      document.getElementById("updatePrice").value = price;
+      modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    $('#updateModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget); 
+      var id = button.data('id');
+      var name = button.data('name');
+      var desc = button.data('desc');
+      var price = button.data('price');
+
+      var modal = $(this);
+      modal.find('#modalUpdateId').val(id);
+      modal.find('#modalUpdateName').val(name);
+      modal.find('#modalUpdateDesc').val(desc);
+      modal.find('#modalUpdatePrice').val(price);
+    });
+  </script>
 </head>
 
 <body>
@@ -38,7 +76,6 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <!-- <th scope="col">#</th> -->
           <th scope="col">Name</th>
           <th scope="col">Description</th>
           <th scope="col">Price</th>
@@ -49,12 +86,17 @@
         if (isset($_SESSION['posData'])) {
           foreach ($posData as $pos) {
             echo "<tr>";
-            // echo "<td>" . $pos['id'] . "</td>";
             echo "<td>" . $pos['menu_name'] . "</td>";
             echo "<td>" . $pos['menu_desc'] . "</td>";
             echo "<td>" . $pos['price'] . "</td>";
-            echo "<td><button href=" . "process-form.php?id=" . $pos['id'] . ">delete</button></td>";
-            echo "<td><button>asdasdasd</button></td>";
+            echo '<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal"
+                    data-id="' . $pos['id'] . '"
+                    data-name="' . $pos['menu_name'] . '"
+                    data-desc="' . $pos['menu_desc'] . '"
+                    data-price="' . $pos['price'] . '">
+                    Update
+                  </button></td>';
+            echo "<td><a href=" . "process-form.php?id=" . $pos['id'] . ">delete</a></td>";
             echo "<tr>";
           }
         }
@@ -62,6 +104,45 @@
       </tbody>
     </table>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Update Record</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Update form -->
+          <form action="process-form.php?action=update" method="post">
+            <input type="hidden" name="id" id="modalUpdateId">
+            <div class="form-group">
+              <label for="modalUpdateName">Menu Name:</label>
+              <input type="text" class="form-control" name="name" id="modalUpdateName" required>
+            </div>
+            <div class="form-group">
+              <label for="modalUpdateDesc">Menu Description:</label>
+              <input type="text" class="form-control" name="desc" id="modalUpdateDesc" required>
+            </div>
+            <div class="form-group">
+              <label for="modalUpdatePrice">Price:</label>
+              <input type="text" class="form-control" name="price" id="modalUpdatePrice" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="updateForm" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Include Bootstrap JavaScript and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
